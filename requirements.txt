@@ -1,2 +1,4 @@
 fastapi
 uvicorn
+#  this are not well prepared requirements to be installed automatically by $ pip install -r requirements.txt
+#  eg. it is recomended to use $ pip install "fastapi[standard]"
