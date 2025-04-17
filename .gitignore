@@ -39,4 +39,8 @@ ehthumbs.db
 Thumbs.db
 .actrc*
 
+# venv #
+########
+.venv_gh_copilot/
+
 __pycache__/
