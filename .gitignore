@@ -43,4 +43,9 @@ Thumbs.db
 ########
 .venv_gh_copilot/
 
+# workspace #
+################
+.vscode/
+*workspace
+
 __pycache__/
