@@ -92,6 +92,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Handle new activity form submission
+  document.getElementById("add-activity-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById("activity-name").value;
+    const description = document.getElementById("activity-description").value;
+    const schedule = document.getElementById("activity-schedule").value;
+    const maxParticipants = document.getElementById("activity-max-participants").value;
+    const messageDiv = document.getElementById("add-activity-message");
+
+    try {
+      const response = await fetch("/activities/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          description,
+          schedule,
+          max_participants: parseInt(maxParticipants, 10),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        messageDiv.textContent = result.message;
+        messageDiv.className = "success";
+        document.getElementById("add-activity-form").reset();
+        fetchActivities(); // Refresh the activities list
+      } else {
+        messageDiv.textContent = result.detail || "An error occurred";
+        messageDiv.className = "error";
+      }
+
+      messageDiv.classList.remove("hidden");
+
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        messageDiv.classList.add("hidden");
+      }, 5000);
+    } catch (error) {
+      messageDiv.textContent = "Failed to add activity. Please try again.";
+      messageDiv.className = "error";
+      messageDiv.classList.remove("hidden");
+      console.error("Error adding activity:", error);
+    }
+  });
+
   // Initialize app
   fetchActivities();
 });

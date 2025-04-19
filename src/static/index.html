@@ -39,6 +39,30 @@
         </form>
         <div id="message" class="hidden"></div>
       </section>
+
+      <section id="add-activity-container">
+        <h3>Add a New Activity</h3>
+        <form id="add-activity-form">
+          <div class="form-group">
+            <label for="activity-name">Activity Name:</label>
+            <input type="text" id="activity-name" required placeholder="Enter activity name" />
+          </div>
+          <div class="form-group">
+            <label for="activity-description">Description:</label>
+            <input type="text" id="activity-description" required placeholder="Enter activity description" />
+          </div>
+          <div class="form-group">
+            <label for="activity-schedule">Schedule:</label>
+            <input type="text" id="activity-schedule" required placeholder="Enter activity schedule" />
+          </div>
+          <div class="form-group">
+            <label for="activity-max-participants">Max Participants:</label>
+            <input type="number" id="activity-max-participants" required placeholder="Enter max participants" />
+          </div>
+          <button type="submit">Add Activity</button>
+        </form>
+        <div id="add-activity-message" class="hidden"></div>
+      </section>
     </main>
 
     <footer>
