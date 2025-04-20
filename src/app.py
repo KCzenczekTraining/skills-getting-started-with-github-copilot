@@ -11,13 +11,18 @@ from fastapi.responses import RedirectResponse
 import os
 from pathlib import Path
 
-app = FastAPI(title="Mergington High School API",
-              description="API for viewing and signing up for extracurricular activities")
+app = FastAPI(
+    title="Mergington High School API",
+    description="API for viewing and signing up for extracurricular activities"
+)
 
 # Mount the static files directory
 current_dir = Path(__file__).parent
-app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
-          "static")), name="static")
+app.mount(
+    "/static",
+    StaticFiles(directory=os.path.join(Path(__file__).parent, "static")),
+    name="static"
+)
 
 # In-memory activity database
 activities = {
@@ -80,22 +85,47 @@ activities = {
 
 @app.get("/")
 def root():
+    """
+    Redirect to the static index.html page.
+
+    Returns:
+        RedirectResponse: Redirects to the static index.html page.
+    """
     return RedirectResponse(url="/static/index.html")
 
 
 @app.get("/activities")
 def get_activities():
+    """
+    Retrieve all available activities.
+
+    Returns:
+        dict: A dictionary containing all activities and their details.
+    """
     return activities
 
 
 @app.post("/activities/{activity_name}/signup")
 def signup_for_activity(activity_name: str, email: str):
-    """Sign up a student for an activity"""
+    """
+    Sign up a student for a specified activity.
+
+    Args:
+        activity_name (str): The name of the activity to sign up for.
+        email (str): The email address of the student signing up.
+
+    Raises:
+        HTTPException: If the activity does not exist (404).
+        HTTPException: If the student is already signed up for the activity (400).
+
+    Returns:
+        dict: A confirmation message indicating the student has been signed up.
+    """
     # Validate activity exists
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
 
-    # Get the specificy activity
+    # Get the specific activity
     activity = activities[activity_name]
 
     # Validate student is not already signed up
@@ -109,7 +139,21 @@ def signup_for_activity(activity_name: str, email: str):
 
 @app.post("/activities/add")
 def add_activity(name: str, description: str, schedule: str, max_participants: int):
-    """Add a new activity"""
+    """
+    Add a new activity to the list of activities.
+
+    Args:
+        name (str): The name of the new activity.
+        description (str): A brief description of the activity.
+        schedule (str): The schedule for the activity.
+        max_participants (int): The maximum number of participants allowed.
+
+    Raises:
+        HTTPException: If the activity already exists (400).
+
+    Returns:
+        dict: A confirmation message indicating the activity has been added.
+    """
     # Validate activity does not already exist
     if name in activities:
         raise HTTPException(status_code=400, detail="Activity already exists")
