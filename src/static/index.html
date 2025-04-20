@@ -24,6 +24,21 @@
       <section id="signup-container">
         <h3>Sign Up for an Activity</h3>
         <form id="signup-form">
+            <!-- if i move styling and js piece of code to respective files (.css and .js) it doesn't work anylonger -->
+            <div id="date-info" style="margin-bottom: 1em; font-style: italic; color: #555;">
+            Today is <span id="current-day"></span>, <span id="current-date"></span>.
+            </div>
+            <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+              const today = new Date();
+              const dayName = daysOfWeek[today.getDay()];
+              const date = today.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+              document.getElementById("current-day").textContent = dayName;
+              document.getElementById("current-date").textContent = date;
+            });
+            </script>
           <div class="form-group">
             <label for="email">Student Email:</label>
             <input type="email" id="email" required placeholder="your-email@mergington.edu" />
